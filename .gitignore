@@ -52,3 +52,10 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+/.vs/VSWorkspaceState.json
+/.vs/slnx.sqlite-journal
+/.vs/slnx.sqlite
+/.vs/ProjectSettings.json
+/.vs/Vinalyze/v17
+/.vs/Vinalyze/FileContentIndex
+/.vs/Vinalyze/CopilotIndices/17.13.433.20974
