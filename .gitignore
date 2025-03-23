@@ -59,3 +59,5 @@ nunit-*.xml
 /.vs/Vinalyze/v17
 /.vs/Vinalyze/FileContentIndex
 /.vs/Vinalyze/CopilotIndices/17.13.433.20974
+/Vinalyze_api/.vs
+/.vs/Vinalyze/config
