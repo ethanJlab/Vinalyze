@@ -11,6 +11,15 @@ namespace Vinalyze_api.Controllers
     {
         private readonly AccountDbContext _context = context;
 
+
+        // get all accounts
+        [HttpGet]
+        public async Task<ActionResult<List<Account>>> GetAllAccounts()
+        {
+            return Ok(await _context.Account.ToListAsync());
+        }
+
+        // get an account by id
         [HttpGet("{id}")]
         public async Task<ActionResult<Account>> GetAccount(int id)
         {
@@ -20,5 +29,48 @@ namespace Vinalyze_api.Controllers
 
             return Ok(account);
         }
+
+        // create account
+        [HttpPost]
+        public async Task<ActionResult<Account>> CreateAccount(Account newAccount)
+        {
+            if (newAccount is null)
+                return BadRequest();
+            _context.Account.Add(newAccount);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetAccount), new { id = newAccount.Id }, newAccount);
+        }
+
+        // update account
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateAccount(int id, Account updatedAccount)
+        {
+            var curAccount = await _context.Account.FindAsync(id);
+            if (curAccount is null)
+                return NotFound();
+
+            curAccount.Username = updatedAccount.Username;
+            curAccount.Password = updatedAccount.Password;
+            curAccount.Email = updatedAccount.Email;
+
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        // delete account
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAccount(int id)
+        {
+            var curAccount = await _context.Account.FindAsync(id);
+            if (curAccount is null)
+                return NotFound();
+
+            _context.Account.Remove(curAccount);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
     }
 }
