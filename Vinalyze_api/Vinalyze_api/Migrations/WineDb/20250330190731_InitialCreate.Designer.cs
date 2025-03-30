@@ -9,10 +9,10 @@ using Vinalyze_api.Controllers.Data;
 
 #nullable disable
 
-namespace Vinalyze_api.Migrations
+namespace Vinalyze_api.Migrations.WineDb
 {
-    [DbContext(typeof(AccountDbContext))]
-    [Migration("20250330183244_InitialCreate")]
+    [DbContext(typeof(WineDbContext))]
+    [Migration("20250330190731_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -25,32 +25,32 @@ namespace Vinalyze_api.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Vinalyze_api.Account", b =>
+            modelBuilder.Entity("Vinalyze_api.Wine", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Email")
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("FlavorProfile")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Username")
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Account");
+                    b.ToTable("Wine");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("0f8fad5b-d9cb-469f-a165-70867728950e"),
-                            Email = "admin@gmail.com",
-                            Password = "admin",
-                            Username = "admin"
+                            Id = new Guid("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
+                            Description = "This was created a plant somewhere on planet Earth. It is somewhere between 1 day old and 100 years old.",
+                            FlavorProfile = "This tastes like dirt and feet.",
+                            Name = "Sample Wine"
                         });
                 });
 #pragma warning restore 612, 618
