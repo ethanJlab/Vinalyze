@@ -20,7 +20,7 @@ namespace Vinalyze_api.Controllers
 
         // get a wine by id
         [HttpGet("{id}")]
-        public async Task<ActionResult<Wine>> GetWine(int id)
+        public async Task<ActionResult<Wine>> GetWine(Guid id)
         {
             var wine = await _context.Wine.FindAsync(id);
             if (wine is null)
@@ -44,7 +44,7 @@ namespace Vinalyze_api.Controllers
 
         // update wine
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateWine(int id, Wine updatedWine)
+        public async Task<IActionResult> UpdateWine(Guid id, Wine updatedWine)
         {
             var existingWine = await _context.Wine.FindAsync(id);
             if (existingWine is null)
@@ -60,7 +60,7 @@ namespace Vinalyze_api.Controllers
 
         // delete wine
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteWine(int id)
+        public async Task<IActionResult> DeleteWine(Guid id)
         {
             var existingWine = await _context.Wine.FindAsync(id);
             if (existingWine is null)

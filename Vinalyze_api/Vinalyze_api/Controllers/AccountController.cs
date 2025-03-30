@@ -21,7 +21,7 @@ namespace Vinalyze_api.Controllers
 
         // get an account by id
         [HttpGet("{id}")]
-        public async Task<ActionResult<Account>> GetAccount(int id)
+        public async Task<ActionResult<Account>> GetAccount(Guid id)
         {
             var account = await _context.Account.FindAsync(id);
             if (account is null)
@@ -44,7 +44,7 @@ namespace Vinalyze_api.Controllers
 
         // update account
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAccount(int id, Account updatedAccount)
+        public async Task<IActionResult> UpdateAccount(Guid id, Account updatedAccount)
         {
             var curAccount = await _context.Account.FindAsync(id);
             if (curAccount is null)
@@ -60,7 +60,7 @@ namespace Vinalyze_api.Controllers
 
         // delete account
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAccount(int id)
+        public async Task<IActionResult> DeleteAccount(Guid id)
         {
             var curAccount = await _context.Account.FindAsync(id);
             if (curAccount is null)
