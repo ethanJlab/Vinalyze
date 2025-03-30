@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Vinalyze_api.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -14,8 +15,7 @@ namespace Vinalyze_api.Migrations
                 name: "Account",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -28,7 +28,7 @@ namespace Vinalyze_api.Migrations
             migrationBuilder.InsertData(
                 table: "Account",
                 columns: new[] { "Id", "Email", "Password", "Username" },
-                values: new object[] { 1, "admin@gmail.com", "admin", "admin" });
+                values: new object[] { new Guid("0f8fad5b-d9cb-469f-a165-70867728950e"), "admin@gmail.com", "admin", "admin" });
         }
 
         /// <inheritdoc />
