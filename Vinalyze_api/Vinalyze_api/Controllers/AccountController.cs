@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Vinalyze_api.Controllers.Data;
 using System.Security.Cryptography;
 using System.Text;
+using System.Security.Principal;
+using Vinalyze_api.Migrations;
 
 namespace Vinalyze_api.Controllers
 {
@@ -23,7 +25,7 @@ namespace Vinalyze_api.Controllers
 
         // get an account by id
         [HttpGet("{id}")]
-        public async Task<ActionResult<Account>> GetAccount(Guid id)
+        public async Task<ActionResult<Account>>  GetAccount(Guid id)
         {
             var account = await _context.Account.FindAsync(id);
             if (account is null)
@@ -31,6 +33,7 @@ namespace Vinalyze_api.Controllers
 
             return Ok(account);
         }
+
 
         // create account
         [HttpPost]
@@ -42,24 +45,7 @@ namespace Vinalyze_api.Controllers
             if (newAccount.Password is null)
                 return BadRequest("Password must not be null");
 
-            // initialize SHA256 and string encoding 
-            Encoding enc = Encoding.UTF8;
-            SHA256 sha265Hash = SHA256.Create();
-
-            // encript password as byte array
-            byte[] rawEncriptedPassword = sha265Hash.ComputeHash(enc.GetBytes(newAccount.Password));
-            
-            // check if the encription failed
-            if (rawEncriptedPassword is null)
-                return BadRequest("Unable to hash password");
-
-            // convert byte array to a string and save
-            StringBuilder encriptedPassword = new StringBuilder();
-
-            foreach (byte b in rawEncriptedPassword)
-                encriptedPassword.Append(b.ToString("x2"));
-
-            newAccount.Password = encriptedPassword.ToString();
+            newAccount.Password = this.hashPassword(newAccount.Password);
 
             _context.Account.Add(newAccount);
             await _context.SaveChangesAsync();
@@ -75,10 +61,15 @@ namespace Vinalyze_api.Controllers
             if (curAccount is null)
                 return NotFound();
 
+            if (updatedAccount.Password is null)
+                return BadRequest("Password must not be null");
+
             curAccount.Username = updatedAccount.Username;
-            curAccount.Password = updatedAccount.Password;
             curAccount.Email = updatedAccount.Email;
 
+            // hash the password
+            curAccount.Password = this.hashPassword(updatedAccount.Password);
+            
             await _context.SaveChangesAsync();
             return NoContent();
         }
@@ -95,6 +86,46 @@ namespace Vinalyze_api.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        // login account
+        [HttpPost("login/{id}")]
+        public async Task<ActionResult<bool>> LoginAccount(Guid id, Account curAccount)
+        {
+            // pull the account from DB
+            var account = await _context.Account.FindAsync(id);
+            if (account is null)
+                return NotFound();
+
+            if (curAccount.Password is null)
+                return BadRequest("Password must not be null");
+
+            var hashedCurAccountPass = this.hashPassword(curAccount.Password);
+            if (hashedCurAccountPass.Equals(account.Password))
+                return Ok(true);
+            return Ok(false);
+        }
+
+        // function to hash a string password
+        private string hashPassword(string password)
+        {
+            // initialize SHA256 and string encoding 
+            Encoding enc = Encoding.UTF8;
+            SHA256 sha265Hash = SHA256.Create();
+
+            // encript password as byte array
+            byte[] rawEncriptedPassword = sha265Hash.ComputeHash(enc.GetBytes(password));
+
+            // convert byte array to a string and save
+            StringBuilder encriptedPassword = new StringBuilder();
+
+            foreach (byte b in rawEncriptedPassword)
+                encriptedPassword.Append(b.ToString("x2"));
+
+            string ret = encriptedPassword.ToString();
+
+            return ret;
+
         }
 
     }
