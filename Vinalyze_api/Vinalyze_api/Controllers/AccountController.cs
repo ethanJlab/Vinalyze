@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Vinalyze_api.Controllers.Data;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Vinalyze_api.Controllers
 {
@@ -35,7 +37,30 @@ namespace Vinalyze_api.Controllers
         public async Task<ActionResult<Account>> CreateAccount(Account newAccount)
         {
             if (newAccount is null)
-                return BadRequest();
+                return BadRequest("Object must not be null");
+
+            if (newAccount.Password is null)
+                return BadRequest("Password must not be null");
+
+            // initialize SHA256 and string encoding 
+            Encoding enc = Encoding.UTF8;
+            SHA256 sha265Hash = SHA256.Create();
+
+            // encript password as byte array
+            byte[] rawEncriptedPassword = sha265Hash.ComputeHash(enc.GetBytes(newAccount.Password));
+            
+            // check if the encription failed
+            if (rawEncriptedPassword is null)
+                return BadRequest("Unable to hash password");
+
+            // convert byte array to a string and save
+            StringBuilder encriptedPassword = new StringBuilder();
+
+            foreach (byte b in rawEncriptedPassword)
+                encriptedPassword.Append(b.ToString("x2"));
+
+            newAccount.Password = encriptedPassword.ToString();
+
             _context.Account.Add(newAccount);
             await _context.SaveChangesAsync();
 
