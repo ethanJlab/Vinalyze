@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\WineDb\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

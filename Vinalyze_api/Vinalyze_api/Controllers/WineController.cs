@@ -7,9 +7,9 @@ namespace Vinalyze_api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class WineController(WineDbContext context) : ControllerBase
+    public class WineController(VinalyzeDbContext context) : ControllerBase
     {
-        private readonly WineDbContext _context = context;
+        private readonly VinalyzeDbContext _context = context;
 
         // get all wines
         [HttpGet]
