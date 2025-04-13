@@ -112,17 +112,16 @@ namespace Vinalyze_api.Controllers
             Encoding enc = Encoding.UTF8;
             SHA256 sha256Hash = SHA256.Create();
 
-            // encript password as byte array
-            byte[] rawEncriptedPassword = sha256Hash.ComputeHash(enc.GetBytes(password));
+            // encrypt password as byte array
+            byte[] rawEncryptedPassword = sha256Hash.ComputeHash(enc.GetBytes(password));
 
             // convert byte array to a string and save
-            StringBuilder encriptedPassword = new StringBuilder();
+            StringBuilder encryptedPassword = new StringBuilder();
 
-            foreach (byte b in rawEncriptedPassword)
-                encriptedPassword.Append(b.ToString("x2"));
+            foreach (byte b in rawEncryptedPassword)
+                encryptedPassword.Append(b.ToString("x2"));
 
-            string ret = encriptedPassword.ToString();
-
+            string ret = encryptedPassword.ToString();
             return ret;
 
         }
