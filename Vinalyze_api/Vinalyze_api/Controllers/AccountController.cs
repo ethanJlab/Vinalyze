@@ -5,15 +5,14 @@ using Vinalyze_api.Controllers.Data;
 using System.Security.Cryptography;
 using System.Text;
 using System.Security.Principal;
-using Vinalyze_api.Migrations;
 
 namespace Vinalyze_api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController(AccountDbContext context) : ControllerBase
+    public class AccountController(VinalyzeDbContext context) : ControllerBase
     {
-        private readonly AccountDbContext _context = context;
+        private readonly VinalyzeDbContext _context = context;
 
 
         // get all accounts

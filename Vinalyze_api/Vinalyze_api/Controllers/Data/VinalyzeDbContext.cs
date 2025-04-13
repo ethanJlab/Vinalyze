@@ -4,9 +4,10 @@ using System.Security.Cryptography;
 
 namespace Vinalyze_api.Controllers.Data
 {
-    public class AccountDbContext(DbContextOptions<AccountDbContext> options) : DbContext(options)
+    public class VinalyzeDbContext(DbContextOptions<VinalyzeDbContext> options) : DbContext(options)
     {
         public DbSet<Account> Account => Set<Account>();
+        public DbSet<Wine> Wine => Set<Wine>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -19,6 +20,16 @@ namespace Vinalyze_api.Controllers.Data
                     Username = "admin",
                     Password = this.hashPassword("admin"),
                     Email = "admin@gmail.com"
+                }
+            );
+            modelBuilder.Entity<Wine>().HasData(
+                new Wine
+                {
+                    // id, Name, Description, FlavorProfile
+                    Id = new Guid("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
+                    Name = "Sample Wine",
+                    Description = "This was created from a plant somewhere on planet Earth. It is somewhere between 1 day old and 100 years old.",
+                    FlavorProfile = "This tastes like dirt and feet."
                 }
             );
         }
