@@ -3,7 +3,6 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Vinalyze_api.Controllers.Data;
 
@@ -11,12 +10,10 @@ using Vinalyze_api.Controllers.Data;
 
 namespace Vinalyze_api.Migrations
 {
-    [DbContext(typeof(AccountDbContext))]
-    [Migration("20250330190340_InitialCreate")]
-    partial class InitialCreate
+    [DbContext(typeof(VinalyzeDbContext))]
+    partial class VinalyzeDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,8 +46,37 @@ namespace Vinalyze_api.Migrations
                         {
                             Id = new Guid("0f8fad5b-d9cb-469f-a165-70867728950e"),
                             Email = "admin@gmail.com",
-                            Password = "admin",
+                            Password = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",
                             Username = "admin"
+                        });
+                });
+
+            modelBuilder.Entity("Vinalyze_api.Wine", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FlavorProfile")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Wine");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("7c9e6679-7425-40de-944b-e07fc1f90ae7"),
+                            Description = "This was created a plant somewhere on planet Earth. It is somewhere between 1 day old and 100 years old.",
+                            FlavorProfile = "This tastes like dirt and feet.",
+                            Name = "Sample Wine"
                         });
                 });
 #pragma warning restore 612, 618
