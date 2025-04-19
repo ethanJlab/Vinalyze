@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Vinalyze_api.Controllers.Data;
 
@@ -11,9 +12,11 @@ using Vinalyze_api.Controllers.Data;
 namespace Vinalyze_api.Migrations
 {
     [DbContext(typeof(VinalyzeDbContext))]
-    partial class VinalyzeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250419185412_addRatingEntity")]
+    partial class addRatingEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,15 +105,6 @@ namespace Vinalyze_api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Rating");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("e1f2a3b4-c5d6-7e8f-9a0b-1c2d3e4f5a6b"),
-                            AccountId = new Guid("0f8fad5b-d9cb-469f-a165-70867728950e"),
-                            Value = 5,
-                            WineId = new Guid("7c9e6679-7425-40de-944b-e07fc1f90ae7")
-                        });
                 });
 
             modelBuilder.Entity("Vinalyze_api.Wine", b =>
