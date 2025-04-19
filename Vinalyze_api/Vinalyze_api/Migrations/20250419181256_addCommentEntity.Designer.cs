@@ -12,8 +12,8 @@ using Vinalyze_api.Controllers.Data;
 namespace Vinalyze_api.Migrations
 {
     [DbContext(typeof(VinalyzeDbContext))]
-    [Migration("20250419172814_addLikes")]
-    partial class addLikes
+    [Migration("20250419181256_addCommentEntity")]
+    partial class addCommentEntity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,6 +55,35 @@ namespace Vinalyze_api.Migrations
                             LikedWines = "[\"7c9e6679-7425-40de-944b-e07fc1f90ae7\"]",
                             Password = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",
                             Username = "admin"
+                        });
+                });
+
+            modelBuilder.Entity("Vinalyze_api.Comment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("WineId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Comment");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("d1f8b2c3-4e5f-6a7b-8c9d-e0f1a2b3c4d5"),
+                            AccountId = new Guid("0f8fad5b-d9cb-469f-a165-70867728950e"),
+                            Text = "This wine is amazing! I love the flavor profile.",
+                            WineId = new Guid("7c9e6679-7425-40de-944b-e07fc1f90ae7")
                         });
                 });
 
