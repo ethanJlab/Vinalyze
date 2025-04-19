@@ -10,7 +10,7 @@ namespace Vinalyze_api
 
         public string? Email { get; set; }
 
-        // an array of wine ids to inidicate liked wines
+        // an array of wine ids to indicate liked wines
         public List<Guid>? LikedWines { get; set; }
     }
 }
