@@ -86,6 +86,10 @@ namespace Vinalyze_api.Controllers
             }
             if (request.Value.HasValue)
             {
+                if (request.Value.Value < 1 || request.Value.Value > 5)
+                {
+                    return BadRequest("Rating value must be between 1 and 5.");
+                }
                 rating.Value = request.Value.Value;
             }
             _context.Rating.Update(rating);
