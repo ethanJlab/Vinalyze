@@ -65,6 +65,7 @@ namespace Vinalyze_api.Controllers
 
             curAccount.Username = updatedAccount.Username;
             curAccount.Email = updatedAccount.Email;
+            curAccount.LikedWines = updatedAccount.LikedWines;
 
             // hash the password
             curAccount.Password = this.hashPassword(updatedAccount.Password);
@@ -103,6 +104,58 @@ namespace Vinalyze_api.Controllers
             if (hashedCurAccountPass.Equals(account.Password))
                 return Ok(true);
             return Ok(false);
+        }
+
+
+        public class WineToLikesRequest
+        {
+            public Guid accountId { get; set; }
+            public Guid wineId { get; set; }
+        }
+        // add liked wine to account
+        [HttpPost("addWineToLikes")]
+        public async Task<IActionResult> AddWineToLikes([FromBody] WineToLikesRequest request)
+        {
+            // print both Ids
+            Console.WriteLine($"Account ID: {request.accountId}, Wine ID: {request.wineId}");
+
+            var account = await _context.Account.FindAsync(request.accountId);
+            if (account is null)
+                return NotFound();
+            if (account.LikedWines is null)
+                account.LikedWines = new List<Guid>();
+            if (!account.LikedWines.Contains(request.wineId))
+            {
+                account.LikedWines.Add(request.wineId);
+                await _context.SaveChangesAsync();
+            }
+            return NoContent();
+        }
+
+        // remove liked wine from account
+        [HttpPost("removeWineFromLikes")]
+        public async Task<IActionResult> RemoveWineFromLikes([FromBody] WineToLikesRequest request)
+        {
+            var account = await _context.Account.FindAsync(request.accountId);
+            if (account is null)
+                return NotFound();
+            if (account.LikedWines is null || !account.LikedWines.Contains(request.wineId))
+                return BadRequest("Wine not found in liked wines");
+            account.LikedWines.Remove(request.wineId);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        // get all liked wines for an account
+        [HttpGet("likedWines/{accountId}")]
+        public async Task<ActionResult<List<Guid>>> GetLikedWines(Guid accountId)
+        {
+            var account = await _context.Account.FindAsync(accountId);
+            if (account is null)
+                return NotFound();
+            if (account.LikedWines is null)
+                return Ok(new List<Guid>());
+            return Ok(account.LikedWines);
         }
 
         // function to hash a string password
