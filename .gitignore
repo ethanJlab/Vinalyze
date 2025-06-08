@@ -61,3 +61,8 @@ nunit-*.xml
 /.vs/Vinalyze/CopilotIndices/17.13.433.20974
 /Vinalyze_api/.vs
 /.vs/Vinalyze/config
+
+
+# ignore the cached python files
+/__pycache__/*
+*.pyc
