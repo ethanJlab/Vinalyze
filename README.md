@@ -32,7 +32,8 @@ When using the application, the user should be able to:
   - This will be used to run any microservices or databases locally for development. It is assumed that these services will be moved to a cloud server for production with the necessary adjustments for scalability (i.e Kubernetes)
 - Ms SQL Database
   - This will be used to store user data in a relational database.
-- ASP .Net
+~~- ASP .Net~~
+-DJango
   -  This will be used to handel API calls to the database and external services
 -  Liquor Control Board of Ontario (LCBO) Docker Image
    -  This is a public API from the Candian Gov't that can possibly be used to pull real data about wines that are being sold. The github repo is https://github.com/heycarsten/lcbo-api
