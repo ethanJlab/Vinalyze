@@ -21,5 +21,6 @@ from core import views, wineViews
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('test/', views.helloWorld),
-    path('getAllWineIds/',wineViews.getAllWineIds)
+    path('getAllWineIds/',wineViews.getAllWineIds),
+    path('getWineByID/<str:wineID>', wineViews.getWineById)
 ]
